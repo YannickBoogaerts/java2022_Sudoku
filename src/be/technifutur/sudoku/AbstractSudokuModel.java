@@ -10,7 +10,7 @@ public abstract class AbstractSudokuModel implements SudokuModel {
     @Override
     public char getValue(int lig, int col) throws SudokuPositionException {
         testPosition(lig, col);
-        return this.grille[lig][col];
+        return this.grille[lig][col].getValue();
     }
 
     private void testPosition(int lig, int col) throws SudokuPositionException {
@@ -25,7 +25,7 @@ public abstract class AbstractSudokuModel implements SudokuModel {
     public void setValue(int lig, int col, char value) throws SudokuPositionException, SudokuValueException {
         testPosition(lig, col);
         testValue(value);
-        this.grille[lig][col] = value;
+        this.grille[lig][col].setValue(value);
     }
 
     private void testValue(char value) throws SudokuValueException {
@@ -41,9 +41,18 @@ public abstract class AbstractSudokuModel implements SudokuModel {
     @Override
     public void deleteValue(int lig, int col) throws SudokuPositionException {
         testPosition(lig, col);
-        grille[lig][col] = SudokuModel.EMPTY;
+        grille[lig][col].clear();
     }
 
     @Override
     public abstract boolean isValueValid(char value);
+
+    @Override
+    public void lock() {
+        for (int lig = 0; lig < grille.length; lig++) {
+            for (int col = 0; col < grille[lig].length; col++) {
+                grille[lig][col].lock();
+            }
+        }
+    }
 }
