@@ -2,6 +2,9 @@ package be.technifutur.sudoku;
 
 import be.technifutur.sudoku.sudoSamourail.SudokuModelSamourail;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public abstract class AbstractVue implements SudokuVue{
     private String format;
     private SudokuModel model;
@@ -29,16 +32,15 @@ public abstract class AbstractVue implements SudokuVue{
         int nbValue = model.getNbvalues();
         int size = model.getMaxSize();
 
-        Character[] vect = new Character[nbValue];
-        int pos=0;
+        List<Character> vect = new LinkedList<>();
          for (int lig = 0; lig < size; lig++) {
             for (int col = 0; col < size; col++) {
                 if (model.isPositionValid(lig, col)) {
                     try {
                         if (model.getValue(lig, col) == SudokuModel.EMPTY) {
-                            vect[pos++] = '.';
+                            vect.add( '.');
                         } else {
-                            vect[pos++] = model.getValue(lig, col);
+                            vect.add(model.getValue(lig, col));
                         }
                     } catch (SudokuPositionException e) {
                         throw new RuntimeException(e);
@@ -48,8 +50,8 @@ public abstract class AbstractVue implements SudokuVue{
         }
         afficherVecteur(vect);
     }
-    private void afficherVecteur(Character[] vect) {
-        System.out.printf(this.format, (Object[]) vect);
+    private void afficherVecteur(List<Character> list) {
+        System.out.printf(this.format, list.toArray());
     }
 
 }
