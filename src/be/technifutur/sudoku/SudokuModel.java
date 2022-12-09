@@ -17,4 +17,6 @@ public interface SudokuModel {
     int getNbvalues();
 
     int getMaxSize();
+
+    void lock();
 }

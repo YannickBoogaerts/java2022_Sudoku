@@ -3,6 +3,9 @@ package be.technifutur.sudoku;
 import be.technifutur.sudoku.sudo9x9.SudokuModel9x9;
 import be.technifutur.sudoku.sudo9x9.Vue9x9;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,5 +52,31 @@ public class CreateSudokuControleur implements SudokuControleur {
             vue.afficherGrille();
             request = input.read("Modififier (lig.col.valeur), supprimer (lig.col), quitter (q) :");
         }
+    }
+
+    @Override
+    public void init(String fileName) {
+        File file = new File(fileName);
+        try(Scanner scan = new Scanner(file)){
+            int line = 0;
+            while(scan.hasNextLine()){
+                int col = 0;
+                for(String val : scan.nextLine().split(",")) {
+                    char value = val.charAt(0);
+                    if(sudoku.isValueValid(value)) {
+                        this.sudoku.setValue(line, col, value);
+                    }
+                    col++;
+                }
+                line++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (SudokuValueException e) {
+            throw new RuntimeException(e);
+        } catch (SudokuPositionException e) {
+            throw new RuntimeException(e);
+        }
+        sudoku.lock();
     }
 }
