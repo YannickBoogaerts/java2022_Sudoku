@@ -2,9 +2,15 @@ package be.technifutur.sudoku;
 
 public abstract class AbstractSudokuModel implements SudokuModel {
 
-    private char[][] grille;
-    public AbstractSudokuModel(int size){
-        grille = new char[size][size];
+    private final Cell[][] grille;
+    public AbstractSudokuModel(Cell[][] grille){
+        this.grille = grille;
+       /* grille = new Cell[size][size];
+        for (int lig = 0; lig < size; lig++) {
+            for (int col = 0; col < size; col++) {
+                grille[lig][col]= new Cell();
+            }
+        }*/
     }
 
     @Override
@@ -49,9 +55,9 @@ public abstract class AbstractSudokuModel implements SudokuModel {
 
     @Override
     public void lock() {
-        for (int lig = 0; lig < grille.length; lig++) {
-            for (int col = 0; col < grille[lig].length; col++) {
-                grille[lig][col].lock();
+        for (Cell[] cells : grille) {
+            for (Cell cell : cells) {
+                cell.lock();
             }
         }
     }

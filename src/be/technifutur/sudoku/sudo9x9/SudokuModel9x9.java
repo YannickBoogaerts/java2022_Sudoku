@@ -1,14 +1,21 @@
 package be.technifutur.sudoku.sudo9x9;
 
-import be.technifutur.sudoku.AbstractSudokuModel;
-import be.technifutur.sudoku.SudokuModel;
-import be.technifutur.sudoku.SudokuPositionException;
-import be.technifutur.sudoku.SudokuValueException;
+import be.technifutur.sudoku.*;
 
 public class SudokuModel9x9 extends AbstractSudokuModel implements SudokuModel {
 
     public SudokuModel9x9() {
-        super(9);
+        super(createGrille());
+    }
+
+    private static Cell[][] createGrille() {
+        Cell[][] grille = new Cell[9][9];
+        for (int lig = 0; lig < 9; lig++) {
+            for (int col = 0; col < 9; col++) {
+                grille[lig][col] = new Cell();
+            }
+        }
+        return grille;
     }
 
     @Override
